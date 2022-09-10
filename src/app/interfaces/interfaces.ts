@@ -17,13 +17,21 @@ export interface Match {
   team_2: Team;
 }
 
-export interface AllMatchesResponse {
-  matches: Match[]
+export interface Bet {
+  gameId: number;
+  gameUrl: string;
+  teamName: string;
 }
 
-
-export interface Bet {
-  gameUrl: string;
+export interface MatchEnd {
   gameId: number;
   teamName: string;
+  gameUrl: string;
+  winner: string;
+  isMatchEnd: boolean;
+}
+
+export interface Stats {
+  wins: number;
+  loses: number;
 }

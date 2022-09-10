@@ -13,7 +13,6 @@ export class BetsService {
     this.bets$.next(bets)
   }
 
-
   isBetOnThisGame(match: Match): Bet {
     for (let bet of this.bets$.value) {
       if (bet.gameId === match?.id) return bet
@@ -22,10 +21,6 @@ export class BetsService {
   }
 
   betOnGame(team: Team, match: Match) {
-    if (this.isBetOnThisGame(match)) {
-      console.log('Already bet on this game')
-      return
-    }
     const newBets = [...this.bets$.value, {gameUrl: match.HLTVLink, gameId: match.id, teamName: team.name}]
     localStorage.setItem('bets', JSON.stringify(newBets))
     this.bets$.next(newBets)

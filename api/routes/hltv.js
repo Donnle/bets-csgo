@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const request = require("request");
 const cheerio = require("cheerio");
-const url = "https://www.hltv.org/matches"
 
 const getAttributeFromElement = (str, attr) => {
   const attrInfoStarts = str.indexOf(`${attr}="`) + `${attr}="`.length
@@ -11,7 +10,7 @@ const getAttributeFromElement = (str, attr) => {
 
 router.get('/all-matches', (req, res) => {
   let matches = []
-  request(url, (error, response, body) => {
+  request("https://www.hltv.org/matches", (error, response, body) => {
     if (error) return console.log("Error: " + error);
     const matchTeams = cheerio.load(body)(".match").toArray()
 
@@ -78,7 +77,48 @@ router.get('/all-matches', (req, res) => {
       matches.push(matchInfo)
     })
 
-    res.send({data: {matches}, status: 200})
+    return res.send({data: matches, status: 200})
+  })
+})
+
+router.post('/match-end', (req, res) => {
+  const {gameUrl, gameId, teamName} = req.body
+
+  request(gameUrl, (error, response, body) => {
+    if (error) return console.log("Error: " + error);
+    const matchTeams = cheerio.load(body)(".team").toArray().slice(0, 2)
+    let winner;
+
+    matchTeams.forEach((match) => {
+      const $2 = cheerio.load(match)
+      const teamName = $2('.teamName').text()
+      const isWon = $2('.won').text()
+      if (isWon) {
+        winner = teamName
+      }
+    })
+
+    if (winner) {
+      return res.send({
+        data: {
+          teamName,
+          gameUrl,
+          gameId,
+          winner,
+          isMatchEnd: true
+        }, status: 200
+      })
+    }
+    return res.send({
+      data: {
+        teamName,
+        gameUrl,
+        gameId,
+        winner: null,
+        isMatchEnd: false
+      },
+      status: 200
+    })
   })
 })
 

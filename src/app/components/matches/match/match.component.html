@@ -5,7 +5,7 @@
         <img [src]="match.team_1.logo" alt="team logo" class="match-team__content-image"/>
         <p class="match-team__content-name">{{match.team_1.name}}</p>
       </div>
-      <button (click)="betsService.betOnGame(match.team_1, match)" [ngClass]="{
+      <button (click)="betOnTeam(match.team_1)" [ngClass]="{
         'match-team__bet': true,
         'active': betTeam?.teamName === match.team_1.name
       }">
@@ -14,7 +14,7 @@
     </div>
     <div class="match-begins">{{match.beginsInTime}}</div>
     <div class="match-team">
-      <button (click)="betsService.betOnGame(match.team_2, match)" [ngClass]="{
+      <button (click)="betOnTeam(match.team_2)" [ngClass]="{
         'match-team__bet': true,
         'active': betTeam?.teamName === match.team_2.name
       }">

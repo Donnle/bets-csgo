@@ -24,7 +24,7 @@
       text-transform: uppercase;
 
       &.active {
-        background-color: #fff;
+        background-color: var(--active-button);
       }
     }
 
