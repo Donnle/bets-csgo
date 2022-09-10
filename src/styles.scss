@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --black: #000000;
+  --gray: #333333;
+}
+
+*, *:before, *:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-size: 10px;
+  background-color: var(--gray);
+}
+
+a {
+  color: var(--black);
+}
+
+li {
+  list-style-type: none;
+}
