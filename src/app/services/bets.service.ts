@@ -13,7 +13,6 @@ export class BetsService {
     this.bets$.next(bets)
   }
 
-
   isBetOnThisGame(match: Match): Bet {
     for (let bet of this.bets$.value) {
       if (bet.gameId === match?.id) return bet

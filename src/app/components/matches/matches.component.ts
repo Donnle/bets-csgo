@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AllMatchesResponse, Match, Response} from "../../interfaces/interfaces";
+import {Match, Response} from "../../interfaces/interfaces";
 import {HttpClient} from "@angular/common/http";
 
 @Component({
@@ -15,9 +15,9 @@ export class MatchesComponent implements OnInit {
 
   ngOnInit() {
     this.http
-      .get<Response<AllMatchesResponse>>('/api/all-matches')
-      .subscribe((response: Response<AllMatchesResponse>) => {
-        this.matches = response.data.matches
+      .get<Response<Match[]>>('/api/all-matches')
+      .subscribe((response: Response<Match[]>) => {
+        this.matches = response.data
       })
   }
 }
