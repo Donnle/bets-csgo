@@ -32,6 +32,6 @@ export interface MatchEnd {
 }
 
 export interface Stats {
-  wins: number;
-  loses: number;
+  won: number;
+  lost: number;
 }
