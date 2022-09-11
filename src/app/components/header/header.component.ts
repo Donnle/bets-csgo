@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Stats} from "../../interfaces/interfaces";
+import {BetsService} from "../../services/bets.service";
 
 @Component({
   selector: 'app-header',
@@ -7,13 +8,13 @@ import {Stats} from "../../interfaces/interfaces";
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  stats: Stats = JSON.parse(localStorage.getItem('stats')) || {wins: 0, loses: 0};
+  stats: Stats;
 
-  constructor() {
+  constructor(private betsService: BetsService) {
   }
 
   ngOnInit(): void {
-
+    this.betsService.stats$.subscribe((stats: Stats) => (this.stats = stats))
   }
 
 }

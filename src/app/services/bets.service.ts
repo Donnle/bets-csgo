@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Bet, Match, Team} from "../interfaces/interfaces";
+import {Bet, Match, Stats, Team} from "../interfaces/interfaces";
 import {BehaviorSubject} from "rxjs";
 
 @Injectable({
@@ -7,10 +7,14 @@ import {BehaviorSubject} from "rxjs";
 })
 export class BetsService {
   bets$: BehaviorSubject<Bet[]> = new BehaviorSubject<Bet[]>([]);
+  stats$: BehaviorSubject<Stats> = new BehaviorSubject<Stats>({won: 0, lost: 0})
 
   constructor() {
     const bets = JSON.parse(localStorage.getItem('bets')) || []
     this.bets$.next(bets)
+
+    const stats = JSON.parse(localStorage.getItem('stats')) || {won: 0, lost: 0}
+    this.stats$.next(stats)
   }
 
   isBetOnThisGame(match: Match): Bet {
