@@ -47,9 +47,13 @@
 
   }
 
-  &-begins {
+  &-center {
     font-size: 1.8rem;
     line-height: 1.15em;
     text-align: center;
+
+    &__cancel-bet {
+
+    }
   }
 }

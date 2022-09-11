@@ -25,4 +25,9 @@ export class MatchComponent implements OnInit {
     }
     this.betsService.betOnMatch(team, this.match)
   }
+
+  cancelBet() {
+    this.betTeam = undefined
+    this.betsService.cancelBet(this.match.id)
+  }
 }
