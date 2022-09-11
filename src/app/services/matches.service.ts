@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable, zip} from "rxjs";
-import {Bet, Match, MatchEnd, Response} from "../interfaces/interfaces";
+import {Bet, Match, MatchEnd, Response, Stats} from "../interfaces/interfaces";
 import {BetsService} from "./bets.service";
+import {AdditionalService} from "./additional.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,38 +11,35 @@ import {BetsService} from "./bets.service";
 export class MatchesService {
   matches$: BehaviorSubject<Match[]> = new BehaviorSubject<Match[]>([]);
   bets: Bet[];
+  stats: Stats;
 
-  constructor(private http: HttpClient, private betsService: BetsService) {
-    this.getAllMatches$().subscribe((response: Response<Match[]>) =>
-      (this.matches$.next(response.data))
-    )
-
-    this.betsService.bets$.subscribe((bets: Bet[]) => {
-      this.bets = bets
-    })
+  constructor(
+    private http: HttpClient,
+    private betsService: BetsService,
+    private additionalService: AdditionalService
+  ) {
+    this.getAllMatches$().subscribe((response: Response<Match[]>) => (this.matches$.next(response.data)))
+    this.betsService.bets$.subscribe((bets: Bet[]) => (this.bets = bets))
+    this.betsService.stats$.subscribe((stats: Stats) => (this.stats = stats))
 
     this.checkFinishedMatches$().subscribe((response: Response<MatchEnd>[]) => {
       const actualBets: Bet[] = []
       response.forEach((matchEnd: Response<MatchEnd>) => {
         const {isMatchEnd, gameUrl, gameId, teamName, winner} = matchEnd.data
-
-        const stats = JSON.parse(localStorage.getItem('stats')) || {wins: 0, loses: 0}
+        const stats = this.additionalService.getDataFromLocalStorage('stats') || {wins: 0, loses: 0}
 
         if (isMatchEnd) {
           if (teamName === winner) {
             stats.wins += 1
-            return localStorage.setItem('stats', JSON.stringify(stats))
+          } else {
+            stats.loses += 1
           }
-          stats.loses += 1
-          return localStorage.setItem('stats', JSON.stringify(stats))
+          return this.betsService.setStats(stats)
         }
-
-
         actualBets.push({gameUrl, gameId, teamName})
       })
 
-      localStorage.setItem('bets', JSON.stringify(actualBets))
-      this.betsService.bets$.next(actualBets)
+      this.betsService.setBets(actualBets)
     })
   }
 

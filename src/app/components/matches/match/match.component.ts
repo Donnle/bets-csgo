@@ -15,15 +15,19 @@ export class MatchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.betTeam = this.betsService.isBetOnThisGame(this.match)
+    this.betTeam = this.betsService.isBettedOnMatch(this.match)
   }
 
   betOnTeam(team: Team) {
-    if (this.betsService.isBetOnThisGame(this.match)) {
-      console.log('Already bet on this game')
-      return
-    }
     this.betTeam = {teamName: team.name, gameId: this.match.id, gameUrl: this.match.HLTVLink}
-    this.betsService.betOnGame(team, this.match)
+    if (this.betsService.isBettedOnMatch(this.match)) {
+      this.betsService.cancelBet(this.match.id)
+    }
+    this.betsService.betOnMatch(team, this.match)
+  }
+
+  cancelBet() {
+    this.betTeam = undefined
+    this.betsService.cancelBet(this.match.id)
   }
 }

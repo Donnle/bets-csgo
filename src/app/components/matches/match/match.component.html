@@ -12,7 +12,10 @@
         bet
       </button>
     </div>
-    <div class="match-begins">{{match.beginsInTime}}</div>
+    <div class="match-center">
+      <p class="match-center__begins">{{match.beginsInTime}}</p>
+      <button (click)="cancelBet()" *ngIf="betTeam" class="match-center__cancel-bet">cancel</button>
+    </div>
     <div class="match-team">
       <button (click)="betOnTeam(match.team_2)" [ngClass]="{
         'match-team__bet': true,
