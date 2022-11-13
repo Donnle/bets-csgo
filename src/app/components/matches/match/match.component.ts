@@ -19,7 +19,12 @@ export class MatchComponent implements OnInit {
   }
 
   betOnTeam(team: Team) {
-    this.betTeam = {teamName: team.name, gameId: this.match.id, gameUrl: this.match.HLTVLink}
+    this.betTeam = {
+      teamName: team.name,
+      gameId: this.match.id,
+      gameUrl: this.match.HLTVLink,
+      beginsInTime: this.match.beginsInTime
+    }
     if (this.betsService.isBettedOnMatch(this.match)) {
       this.betsService.cancelBet(this.match.id)
     }

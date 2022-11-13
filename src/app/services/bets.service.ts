@@ -8,14 +8,10 @@ import {AdditionalService} from "./additional.service";
 })
 export class BetsService {
   bets$: BehaviorSubject<Bet[]> = new BehaviorSubject<Bet[]>([]);
-  stats$: BehaviorSubject<Stats> = new BehaviorSubject<Stats>({won: 0, lost: 0})
 
   constructor(private additionalService: AdditionalService) {
     const bets = this.additionalService.getDataFromLocalStorage('bets') || []
     this.bets$.next(bets)
-
-    const stats = this.additionalService.getDataFromLocalStorage('stats') || {won: 0, lost: 0}
-    this.stats$.next(stats)
   }
 
   isBettedOnMatch(match: Match): Bet {
@@ -28,12 +24,13 @@ export class BetsService {
 
   betOnMatch(team: Team, match: Match) {
     const bets = this.bets$.value
-    const newBets = [
+    const newBets: Bet[] = [
       ...bets,
       {
         gameUrl: match.HLTVLink,
         gameId: match.id,
-        teamName: team.name
+        teamName: team.name,
+        beginsInTime: match.beginsInTime
       }
     ]
     this.setBets(newBets)
@@ -42,11 +39,6 @@ export class BetsService {
   setBets(bets: Bet[]) {
     this.additionalService.setDataToLocalStorage('bets', bets)
     this.bets$.next(bets)
-  }
-
-  setStats(stats: Stats) {
-    this.additionalService.setDataToLocalStorage('stats', stats)
-    this.stats$.next(stats)
   }
 
   cancelBet(betId: number) {
