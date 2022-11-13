@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Match, Response} from "../../interfaces/interfaces";
 import {HttpClient} from "@angular/common/http";
+import {MatchesService} from "../../services/matches.service";
 
 @Component({
   selector: 'app-matches',
@@ -10,14 +11,12 @@ import {HttpClient} from "@angular/common/http";
 export class MatchesComponent implements OnInit {
   matches: Match[] = []
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private matchesService: MatchesService) {
   }
 
   ngOnInit() {
-    this.http
-      .get<Response<Match[]>>('/api/all-matches')
-      .subscribe((response: Response<Match[]>) => {
-        this.matches = response.data
-      })
+    this.matchesService.getAllMatches().subscribe((response) => {
+      this.matches = response.data
+    })
   }
 }

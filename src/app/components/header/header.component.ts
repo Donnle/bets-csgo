@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Stats} from "../../interfaces/interfaces";
-import {BetsService} from "../../services/bets.service";
+import {StatsService} from "../../services/stats.service";
 
 @Component({
   selector: 'app-header',
@@ -10,11 +10,11 @@ import {BetsService} from "../../services/bets.service";
 export class HeaderComponent implements OnInit {
   stats: Stats;
 
-  constructor(private betsService: BetsService) {
+  constructor(private statsService: StatsService) {
   }
 
   ngOnInit(): void {
-    this.betsService.stats$.subscribe((stats: Stats) => (this.stats = stats))
+    this.statsService.stats$.subscribe((stats: Stats) => (this.stats = stats))
   }
 
 }
