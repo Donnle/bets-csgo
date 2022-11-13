@@ -82,7 +82,7 @@ router.get('/all-matches', (req, res) => {
 })
 
 router.post('/is-match-end', (req, res) => {
-  const {gameUrl, gameId, teamName, beginsInTime} = req.body
+  const {gameUrl, gameId, teamName, beginsInTime, moneyBetAmount} = req.body
 
   request(gameUrl, (error, response, body) => {
     if (error) return console.log("Error: " + error);
@@ -106,6 +106,7 @@ router.post('/is-match-end', (req, res) => {
           gameId,
           beginsInTime,
           winner,
+          moneyBetAmount,
           isMatchEnd: true
         }, status: 200
       })
@@ -116,6 +117,7 @@ router.post('/is-match-end', (req, res) => {
         gameUrl,
         gameId,
         beginsInTime,
+        moneyBetAmount,
         winner: null,
         isMatchEnd: false
       },
