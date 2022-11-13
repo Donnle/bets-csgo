@@ -15,7 +15,7 @@ export class BetsService {
     this.bets$.next(bets)
   }
 
-  betOnMatch(team: Team, match: Match, moneyBetAmount: number = 100) {
+  betOnMatch(team: Team, match: Match, moneyBetAmount: number) {
     const bets = this.bets$.getValue()
     const balance: number = this.balanceService.balance$.getValue()
 

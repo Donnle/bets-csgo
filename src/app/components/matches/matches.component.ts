@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Match, Response} from "../../interfaces/interfaces";
+import {Match} from "../../interfaces/interfaces";
 import {HttpClient} from "@angular/common/http";
 import {MatchesService} from "../../services/matches.service";
 
