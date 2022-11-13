@@ -8,6 +8,7 @@ import {HeaderComponent} from './components/header/header.component';
 import {BetsPageComponent} from './pages/bets-page/bets-page.component';
 import {MatchesComponent} from './components/matches/matches.component';
 import {MatchComponent} from './components/matches/match/match.component';
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {MatchComponent} from './components/matches/match/match.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
