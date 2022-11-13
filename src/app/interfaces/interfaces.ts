@@ -22,6 +22,7 @@ export interface Bet {
   gameUrl: string;
   teamName: string;
   beginsInTime: string;
+  moneyBetAmount?: number;
 }
 
 export interface MatchEnd {
@@ -31,6 +32,7 @@ export interface MatchEnd {
   winner: string;
   isMatchEnd: boolean;
   beginsInTime: string;
+  moneyBetAmount: number;
 }
 
 export interface Stats {
