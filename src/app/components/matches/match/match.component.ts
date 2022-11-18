@@ -26,9 +26,16 @@ export class MatchComponent implements OnInit {
   }
 
   betOnTeam(team: Team) {
-    if (this.balance < +this.moneyBetAmount) {
+    const isBettedOnMatch = this.betsService.isBettedOnMatch(this.match)
+
+    if (this.balance < this.moneyBetAmount && this.balance + isBettedOnMatch.moneyBetAmount < this.moneyBetAmount) {
       return alert('No money')
     }
+
+    if (this.moneyBetAmount <= 0) {
+      return alert('Your bet must be higher than 0')
+    }
+
     this.betTeam = {
       teamName: team.name,
       gameId: this.match.id,
@@ -36,7 +43,7 @@ export class MatchComponent implements OnInit {
       beginsInTime: this.match.beginsInTime,
       moneyBetAmount: this.moneyBetAmount
     }
-    if (this.betsService.isBettedOnMatch(this.match)) {
+    if (isBettedOnMatch) {
       this.betsService.cancelBet(this.match.id)
     }
     this.betsService.betOnMatch(team, this.match, this.moneyBetAmount)
